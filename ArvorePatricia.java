@@ -19,7 +19,7 @@ public class ArvorePatricia
 
         //metodos privados
 
-        //quem eh nbitsChave??
+        //numero de bits por chave
         public ArvorePatricia(int nbitsChave)
         {
             this.raiz = null;
@@ -99,4 +99,60 @@ public class ArvorePatricia
             this.raiz = this.insere(k, this.raiz);
         }
 
-    }
+        private PatNo insere(char k, PatNo t, int i)
+        {
+            PatNoInt aux = null;
+
+            if(!this.eExterno(t)) aux = (PatNoInt)t;
+
+            if(this.eExteno(t) || (i < aux.index))
+            {
+                //Cria um novo nó eExterno
+                PatNo p = this.criaNoExt(k);
+                if(this.bit(i, k) == 1) return this.criaNoInt(i, t, p);
+                else return this.criaNoInt(i, p, t);
+            }
+            else
+            {
+                if(this.bit(aux.index, k) == 1)
+                    aux.dir = this.insereEntre(k, aux.dir, i);
+                else
+                    aux.esq = this.insereEntre(k, aux.esq, i);
+
+                return aux;
+            }
+
+        }
+
+        private PatNo insere(char k, PatNo t)
+        {
+            if(t == null)
+                return this.criaNoExt(k);
+            else
+            {
+                PatNo p =t;
+                while(!this.eExterno(p))
+                {
+                    PatNoInt aux = (PatNoInt)p;
+                    if(this.bit(aux.index, k) == 1)
+                        p = aux.dir;
+                    else p = aux.esq;
+                }
+
+                PatNoExt aux = (PatNoExt)p;
+                int i = 1; //acha o primeiro bit diferente
+
+                while((i <= this.nbitsChave)
+                && (this.bit(i, k) == this.bit(i, aux.chave))) i++;
+
+                if(i > this.nbitsChave)
+                {
+                    System.out.println("Erro: chave ja existe nessa arvore");
+                    return t;
+                }
+                else return this.insereEntre(k, t, i);
+            }
+        }
+
+
+}
