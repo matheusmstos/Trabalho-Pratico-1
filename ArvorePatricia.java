@@ -17,26 +17,32 @@ public class ArvorePatricia {
     private PatNo raiz;
     private int nbitsChave;
 
+
+
     public ArvorePatricia (int nbitsChave) {
         this.raiz = null; this.nbitsChave = nbitsChave;
     }
 
     /*----------METODOS AUXILIARES---------*/
 
+
     public void converteString(String converte){
         char c;
+        String palavra = new String();
 
         for(int i = 0; i < converte.length(); i++){
             //pego o primeiro caracter da nossa string e armazeno em um char
             c = converte.charAt(i);
 
             int finalInt = (int)c;
-            System.out.println(finalInt);
+            System.out.println("Byte: " +finalInt);
 
             //converte um inteiro para uma string com o seu respectivo valor binario
             String f = Integer.toBinaryString(finalInt);
+            System.out.println("Binario: " +f);
 
-            System.out.println(f);
+            palavra = palavra + f;
+            System.out.println("Nossa Palavra: " +palavra);
 
 
         }
@@ -90,63 +96,67 @@ public class ArvorePatricia {
 
     public void insere (char k) { this.raiz = this.insere (k, this.raiz); }
 
-    private PatNo insereEntre (char k, PatNo t, int i) {
-        PatNoInt aux = null;
-        if (!this.eExterno (t)) aux = (PatNoInt)t;
-        if (this.eExterno (t) || (i < aux.index)) { // @{\it Cria um novo n\'o externo}@
-        PatNo p = this.criaNoExt (k);
-        if (this.bit (i, k) == 1) return this.criaNoInt (i, t, p);
-        else return this.criaNoInt (i, p, t);
-    }else {
-        if (this.bit (aux.index, k) == 1)
-        aux.dir = this.insereEntre (k, aux.dir, i);
-        else aux.esq = this.insereEntre (k, aux.esq, i);
-        return aux;
-    }
-}
+        private PatNo insereEntre (char k, PatNo t, int i) {
+            PatNoInt aux = null;
+            if (!this.eExterno (t)) aux = (PatNoInt)t;
 
-private PatNo insere (char k, PatNo t) {
-    if (t == null) return this.criaNoExt (k);
-    else {
-        PatNo p = t;
-        while (!this.eExterno (p)) {
-            PatNoInt aux = (PatNoInt)p;
-            if (this.bit (aux.index, k) == 1) p = aux.dir; else p = aux.esq;
+            if (this.eExterno (t) || (i < aux.index)) { // @{\it Cria um novo n\'o externo}@
+                PatNo p = this.criaNoExt (k);
+                if (this.bit (i, k) == 1)
+                return this.criaNoInt (i, t, p);
+                else
+                return this.criaNoInt (i, p, t);
+        }else {
+            if (this.bit (aux.index, k) == 1)
+            aux.dir = this.insereEntre (k, aux.dir, i);
+            else
+            aux.esq = this.insereEntre (k, aux.esq, i);
+            return aux;
+            }
         }
-        PatNoExt aux = (PatNoExt)p;
-        int i = 1; // @{\it acha o primeiro bit diferente}@
-        while ((i <= this.nbitsChave)&&
-        (this.bit (i, k) == this.bit (i, aux.chave))) i++;
-        if (i > this.nbitsChave) {
-            System.out.println ("Erro: chave ja esta na arvore");
-            return t;
-        }
-        else return this.insereEntre (k, t, i);
-    }
-}
 
-/*----------IMPRIME----------*/
-
-public void imprime () {
-    this.central (null, this.raiz, "RAIZ");
-}
-
-private void central (PatNo pai, PatNo filho, String msg) {
-    if (filho != null) {
-        if (!this.eExterno (filho)) {
-            PatNoInt aux = (PatNoInt)filho;
-            central (filho, aux.esq, "ESQ");
-            if (pai != null)
-            System.out.println ("Pai: "+ ((PatNoInt)pai).index + " " + msg+ " Int: " + aux.index);
-            else System.out.println ("Pai: "+ pai + " " + msg+ " Int: " + aux.index);
-            central (filho, aux.dir, "DIR");
-        } else {
-            PatNoExt aux = (PatNoExt)filho;
-            if (pai != null)
-            System.out.println ("Pai: "+ ((PatNoInt)pai).index + " " + msg+ " Ext: " + aux.chave);
-            else System.out.println ("Pai: "+ pai + " " + msg+ " Ext: " + aux.chave);
+    private PatNo insere (char k, PatNo t) {
+        if (t == null) return this.criaNoExt (k);
+        else {
+            PatNo p = t;
+            while (!this.eExterno (p)) {
+                PatNoInt aux = (PatNoInt)p;
+                if (this.bit (aux.index, k) == 1) p = aux.dir; else p = aux.esq;
+            }
+            PatNoExt aux = (PatNoExt)p;
+            int i = 1; // @{\it acha o primeiro bit diferente}@
+            while ((i <= this.nbitsChave)&&
+            (this.bit (i, k) == this.bit (i, aux.chave))) i++;
+            if (i > this.nbitsChave) {
+                System.out.println ("Erro: chave ja esta na arvore");
+                return t;
+            }
+            else return this.insereEntre (k, t, i);
         }
     }
-}
+
+    /*----------IMPRIME----------*/
+
+    public void imprime () {
+        this.central (null, this.raiz, "RAIZ");
+    }
+
+    private void central (PatNo pai, PatNo filho, String msg) {
+        if (filho != null) {
+            if (!this.eExterno (filho)) {
+                PatNoInt aux = (PatNoInt)filho;
+                central (filho, aux.esq, "ESQ");
+                if (pai != null)
+                System.out.println ("Pai: "+ ((PatNoInt)pai).index + " " + msg+ " Int: " + aux.index);
+                else System.out.println ("Pai: "+ pai + " " + msg+ " Int: " + aux.index);
+                central (filho, aux.dir, "DIR");
+            } else {
+                PatNoExt aux = (PatNoExt)filho;
+                if (pai != null)
+                System.out.println ("Pai: "+ ((PatNoInt)pai).index + " " + msg+ " Ext: " + aux.chave);
+                else System.out.println ("Pai: "+ pai + " " + msg+ " Ext: " + aux.chave);
+            }
+        }
+    }
 
 }
