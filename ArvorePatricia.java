@@ -1,4 +1,6 @@
-package cap5;
+import java.util.*;
+import java.lang.*;
+
 public class ArvorePatricia {
 
     private static abstract class PatNo { }
@@ -21,44 +23,24 @@ public class ArvorePatricia {
 
     /*----------METODOS AUXILIARES---------*/
 
-    // // Converte a string passada por parametro para bytes
-    // public byte converteChar(String chave,int i){
-    //     char caractere = chave.charAt(i);
-    //     byte converte = (byte) caractere;
-    //     return converte;
-    // }
-    //
-    // public int converteString(String chave){
-    //     char c;
-    //     int i;
-    //     int j, k = 0;
-    //     String bit;
-    //     int[] v = new int[128];
-    //     byte aux;
-    //
-    //
-    //     for(i = 0; i < chave.length(); i++){
-    //         c = chave.charAt(i); //pego a primeira posição de uma String
-    //         aux = (byte)c; //Converto o primeiro caractere para byte
-    //         bit = tranfromaBit(aux);   //converto o byte para uma String
-    //
-    //         while(j < bit.length()){
-    //             v[k] = bit.charAt(j); //copio as posiçoes da Strins de bits
-    //             k++;                  //para a nossa chave
-    //             j++;
-    //         }
-    //
-    //     }
-    //
-    //     return v[];
-    // }
-    //
-    // public int transformaBit(byte bit){
-    //
-    //     int oi;
-    //     return oi;
-    // }
+    public void converteString(String converte){
+        char c;
 
+        for(int i = 0; i < converte.length(); i++){
+            //pego o primeiro caracter da nossa string e armazeno em um char
+            c = converte.charAt(i);
+
+            int finalInt = (int)c;
+            System.out.println(finalInt);
+
+            //converte um inteiro para uma string com o seu respectivo valor binario
+            String f = Integer.toBinaryString(finalInt);
+
+            System.out.println(f);
+
+
+        }
+    }
 
     // @{\it Retorna o i-\'esimo bit da chave k a partir da esquerda}@
     private int bit (int i, char k) {
