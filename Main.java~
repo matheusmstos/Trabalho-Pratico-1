@@ -37,7 +37,7 @@ public class Main {
 	 		  do{
 	 		    System.out.println("Digite a palavra a ser pesquisada e imprimir suas aplicações");
 	 		    digitada = entrada.next();
-                                    aux = ar.converteString(digitada.toLowerCase());
+                                    aux = ar.converteString(digitada);
 	 		            ar.pesquisa(aux);
 
 	 		    System.out.println("Digite 1 para pesquisar uma nova palavra ou digite qualquer número para encerrar sua aplicação");
